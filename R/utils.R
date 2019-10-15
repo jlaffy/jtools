@@ -36,6 +36,17 @@ is_number = function(x) {
     is.numeric(x) & length(x) == 1
 }
 
+
+#' Destructuring assignment
+#'
+#' See \code{zeallot::\link[zeallot]{\%->\%}} for details.
+#' @importFrom zeallot %->%
+#' @export
+#' @rdname unpack-assign-back
+#' @name %->%
+#' @keywords internal
+`%->%`
+
 #' Destructuring assignment
 #'
 #' See \code{zeallot::\link[zeallot]{\%<-\%}} for details.
