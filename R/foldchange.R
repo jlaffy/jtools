@@ -21,8 +21,8 @@ foldchange.character = function(x, y, ...) {
 }
 
 foldchange.matrix = function(x, y, is.log = TRUE, cutoff = NULL, ...) {
-    x = as.matrix(a)
-    b = as.matrix(b)
+    x = as.matrix(x)
+    y = as.matrix(y)
     stopifnot(have_equal_rownames(x, y))
     if (!is.log) res = rowMeans(x)/rowMeans(y)
     else res = rowMeans(x) - rowMeans(y)
