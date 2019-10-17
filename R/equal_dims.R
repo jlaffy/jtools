@@ -47,3 +47,24 @@ equal_cols = function(..., cols = NULL) {
     else cols = matCols
     sapply(1:length(mats), function(i) mats[[i]][, cols], simplify = F)
 }
+
+
+#' @title Subset matrices to contain the same columns and rows
+#' @description subset matrices to contain the same columns and rows
+#' @param ... matrices to subset
+#' @param rows character vector; additional rownames to subset matrices by. Default: NULL
+#' @param cols character vector; additional colnames to subset matrices by. Default: NULL
+#' @return matrices with equal dimensions and the same rows and columns 
+#' @examples 
+#' \dontrun{
+#'  c(m1, m2) %<-% equal_dims(m1, m2, rows = NULL, cols = sample(colnames(m1), 5))
+#' }
+#' @rdname equal_dims
+#' @export 
+equal_dims = function(..., rows = NULL, cols = NULL) {
+    mats = list(...)
+    rowArgs = c(mats, list(rows = rows))
+    newMats = do.call(equal_rows, rowArgs)
+    colArgs = c(newMats, list(cols = cols))
+    do.call(equal_cols, colArgs)
+}
