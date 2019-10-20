@@ -8,18 +8,23 @@
 #' @rdname foldchange
 #' @export 
 foldchange = function(x, y, ...) {
-    UseMethod('foldchange', y)
+    stopifnot(has_dim(y))
+    UseMethod('foldchange', x)
 }
 
+#' @export
 foldchange.NULL = function(...) "NULL"
 
-foldchange.default = function(x, y, ...) message('Class of <y> not recognised.')
+#' @export
+foldchange.default = function(x, y, ...) message('Class of <x> not recognised.')
 
+#' @export
 foldchange.character = function(x, y, ...) {
-    c(x, y) %<-% split_matrix(m = x, by = y)
+    c(x, y) %<-% split_matrix(m = y, by = x)
     foldchange.matrix(x = x, y = y, ...)
 }
 
+#' @export
 foldchange.matrix = function(x, y, is.log = TRUE, cutoff = NULL, ...) {
     x = as.matrix(x)
     y = as.matrix(y)
@@ -32,5 +37,6 @@ foldchange.matrix = function(x, y, is.log = TRUE, cutoff = NULL, ...) {
     res
 }
 
+#' @export
 foldchange.data.frame = foldchange.matrix
 

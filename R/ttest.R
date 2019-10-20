@@ -9,18 +9,22 @@
 #' @rdname ttest
 #' @export 
 ttest = function(x, y, ...) {
-    UseMethod('ttest', y)
+    stopifnot(has_dim(y))
+    UseMethod('ttest', x)
 }
 
+#' @export 
 ttest.NULL = function(...) {
     "NULL"
 }
 
+#' @export 
 ttest.character = function(x, y, ...) {
-    c(x, y) %<-% split_matrix(m = x, by = y)
+    c(x, y) %<-% split_matrix(m = y, by = x)
     ttest.matrix(x = x, y = y, ...)
 }
 
+#' @export 
 ttest.matrix = function(x, y, adjust.method = 'BH', cutoff = NULL, ...) {
     x = as.matrix(x)
     y = as.matrix(y)
@@ -31,8 +35,10 @@ ttest.matrix = function(x, y, adjust.method = 'BH', cutoff = NULL, ...) {
     res
 }
 
+#' @export 
 ttest.data.frame = ttest.matrix
 
+#' @export 
 ttest.default = function(x, y, ...) {
-    message('Class of <y> not recognised.')
+    message('Class of <x> not recognised.')
 }

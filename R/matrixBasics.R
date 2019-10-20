@@ -40,7 +40,7 @@ rowCenter = function(m, method = 'mean', centerBy = NULL) {
 
 #' @title <dim> for many matrices
 #' @description Returns the result of dim for every matrix in a list
-#' @param m a list of matrices (or a single matrix)
+#' @param mats a list of matrices (or a single matrix)
 #' @return dim for each matrix provided.
 #' @rdname dims
 #' @export 
@@ -56,7 +56,7 @@ dims <- function(mats) {
 
 #' @title <ncol> for many matrices
 #' @description Returns the result of ncol for every matrix in a list
-#' @param m a list of matrices (or a single matrix)
+#' @param mats a list of matrices (or a single matrix)
 #' @return ncol for each matrix provided.
 #' @rdname ncols
 #' @export 
@@ -72,7 +72,7 @@ ncols <- function(mats) {
 
 #' @title <nrow> for many matrices
 #' @description Returns the result of nrow for every matrix in a list
-#' @param m a list of matrices (or a single matrix)
+#' @param mats a list of matrices (or a single matrix)
 #' @return nrow for each matrix provided.
 #' @rdname nrows
 #' @export 

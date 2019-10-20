@@ -12,7 +12,7 @@
 #' @param returnAllGenes should all genes be returned instead of only those passing cutoffs? Default: FALSE
 #' @return if returnValue == 'all', a list, else a named numeric vector. If a named numeric vector, names are gene names (row names) and values are fold changes if returnValue == 'fc' or p values of returnValue == 'p'. The number of genes returned depends on whether returnAllGenes == T and whether cutoff.fc and cutoff.p were given (default is that they are).
 #' @seealso 
-#'  \code{\link[stats]{character(0)}}
+#'  \code{\link[stats]{p.adjust.methods}}
 #' @rdname dea
 #' @export 
 #' @importFrom stats p.adjust.methods
@@ -25,6 +25,29 @@ dea = function(x,
                sortBy = c('fc', 'p', 'none'),
                returnValue = c('fc', 'p', 'all'),
                returnAllGenes = FALSE) {
+    stopifnot(has_dim(y))
+    UseMethod('dea', x)
+}
+
+#' @export 
+dea.NULL = function(...) NULL
+
+#' @export 
+dea.character = function(x, y, ...) {
+    c(x, y) %<-% split_matrix(m = y, by = x)
+    dea.matrix(x = x, y = y, ...)
+}
+
+#' @export 
+dea.matrix = function(x,
+                      y,
+                      is.log = T,
+                      cutoff.fc = 2,
+                      cutoff.p = 0.01,
+                      adjust.method = unique(c('BH', stats::p.adjust.methods)),
+                      sortBy = c('fc', 'p', 'none'),
+                      returnValue = c('fc', 'p', 'all'),
+                      returnAllGenes = FALSE) {
 
     adjust.method = match.arg(adjust.method)
     sortBy = match.arg(sortBy)
@@ -32,10 +55,10 @@ dea = function(x,
 
     if (!returnAllGenes) {
         fc = foldchange(x, y, is.log = is.log, cutoff = cutoff.fc)
-        p = ttest(x[names(fc)], y[names(fc)], adjust.method = adjust.method, cutoff = NULL)
+        p = ttest(x[names(fc), ], y[names(fc), ], adjust.method = adjust.method, cutoff = NULL)
     } else {
         fc = foldchange(x, y, is.log = is.log, cutoff = NULL)
-        p = ttests(x, y, adjust.method = adjust.method, cutoff = NULL)
+        p = ttest(x, y, adjust.method = adjust.method, cutoff = NULL)
     }
 
     if (is.null(cutoff.fc)) cutoff.fc = rep(T, length(fc))
@@ -61,3 +84,8 @@ dea = function(x,
     else if (returnValue == 'p') return(p)
     fc
 }
+
+
+#' @export 
+dea.data.frame = dea.matrix
+

@@ -35,5 +35,5 @@ if returnValue == 'all', a list, else a named numeric vector. If a named numeric
 differential expression analysis
 }
 \seealso{
-\code{\link[stats]{character(0)}}
+\code{\link[stats]{p.adjust.methods}}
 }
