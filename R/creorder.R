@@ -3,7 +3,6 @@
 #' @title Generate ordered correlation matrices on the fly, FLexiblY. 
 #' @description Calls the jtools function HC() to generate a correlation matrix with the parameters specified and subsequently order the columns and rows by hierarchical clustering, again with parameters specified by the user (defaults are recommended for single-cell expression (RNAseq) data). 
 #' @param m matrix. Default: NULL
-#' @param cr correlation matrix. If provided, cr will not be computed from <m>. Default: NULL
 #' @param hc.method a character string indicating which agglomeration method to use. Default: 'average'
 #' @param cor.method a character string indicating which correlation coefficient is to be computed. Default: 'pearson'
 #' @param compute.dist a boolean value indicating whether a distance measure should be computed from the correlation metric. If FALSE, distances are computed from the correlation matrix directly. Default: T
@@ -12,14 +11,16 @@
 #' @rdname creorder
 #' @export 
 creorder = function(m = NULL,
-                    cr = NULL,
                     hc.method = 'average', 
                     cor.method = 'pearson',
                     compute.dist = T,
                     dist.method = 'euclidean') {
 
+    if (!is.null(m) && is_similarity_matrix(m)) {
+        warning('<m> looks like a correlation matrix...; did you mean to call reorder()?'),
+    }
+
     obj = HC(m = m,
-             cr = cr, 
              ord = T,
              returnSteps = T,
              hc.method = hc.method,

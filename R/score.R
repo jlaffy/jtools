@@ -15,6 +15,24 @@
 }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param m PARAM_DESCRIPTION
+#' @param groups PARAM_DESCRIPTION
+#' @param correction PARAM_DESCRIPTION, Default: c("groups2", "mean", "median", "none")
+#' @param groups2 PARAM_DESCRIPTION, Default: NULL
+#' @param m2 PARAM_DESCRIPTION, Default: NULL
+#' @param ... PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname score
+#' @export 
 score = function(m,
                  groups,
                  correction = c('groups2', 'mean', 'median', 'none'),
@@ -44,6 +62,7 @@ score = function(m,
     else stop('<correction> does not exist')
 
     stopifnot(nrow(scores) == nrow(cont.scores))
-    stopifnot(ncol(cont.scores) == 1 || ncol(cont.scores) == ncol(scores))
+    if (ncol(cont.scores) == 1) return(sweep(scores, 1, cont.scores))
+    stopifnot(ncol(scores) == ncol(cont.scores))
     scores - cont.scores
 }

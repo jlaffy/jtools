@@ -1,3 +1,20 @@
+
+is_square_matrix = function(m) {
+    is.matrix(m) && is.numeric(m) && ncol(m) == nrow(m)
+}
+
+is_symmetric_matrix = function(m) {
+    is_square_matrix(m) && (sum(x == t(x)) == nrow(x)^2)
+}
+
+is_similarity_matrix = function(m) {
+    is_symmetric_matrix(m) && all(diag(m) == 1)
+}
+
+is_dissimilarity_matrix = function(m) {
+    is_symmetric_matrix(m) && all(diag(m) == 0)
+}
+
 remove_missing_genes = function(groups, m) {
     if (is.character(groups)) groups = list(groups)
     genes = unique(unlist(groups))
