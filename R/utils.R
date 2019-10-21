@@ -1,4 +1,13 @@
-
+remove_missing_genes = function(groups, m) {
+    if (is.character(groups)) groups = list(groups)
+    genes = unique(unlist(groups))
+    missing = !genes %in% rownames(m)
+    if (any(missing)) {
+        msg = paste0('Removing ', sum(missing), ' missing genes:')
+        warning(cat(c(msg, genes[missing]), sep = '\n'))
+    }
+    sapply(groups, function(gr) gr[gr %in% rownames(m)], simplify = F)
+}
 
 sort_by = function(..., which = 1, decreasing = T) {
     dots = list(...)
